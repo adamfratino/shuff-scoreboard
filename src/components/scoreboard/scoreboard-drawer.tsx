@@ -14,6 +14,8 @@ import { useDrawerStore } from "@/stores/drawer-store";
 import { usePlayerStore } from "@/stores/player-store";
 
 import { ScoreIterator } from "./subcomponents/score-iterator";
+import { RangeSlider } from "./subcomponents/range-slider";
+import { ScoreSwitch } from "./subcomponents/score-switch";
 
 export const ScoreboardDrawer = () => {
   const { open, setOpen } = useDrawerStore();
@@ -23,24 +25,30 @@ export const ScoreboardDrawer = () => {
     <Drawer open={open}>
       <DrawerContent
         onOverlayClick={() => setOpen(false)}
-        className="pb-8"
+        className="p-8 pt-4"
         data-vaul-no-drag
       >
-        <DrawerHeader>
+        <DrawerHeader className="px-0">
           <DrawerTitle>Ready to score your frame?</DrawerTitle>
-          <DrawerDescription className="mb-2">
+          <DrawerDescription className="sr-only">
             Tally up your scoring discs and submit 'em here.
           </DrawerDescription>
         </DrawerHeader>
-        <div className="w-full max-w-96 mx-auto px-2">
+
+        <div className="w-full mx-auto pb-4">
           <div className="grid grid-cols-[4rem_1fr_1fr] items-center mb-1">
-            <div aria-hidden="true" />
-            <h5 className="bg-yellow-400 font-bold uppercase text-xs py-1 text-center rounded-l-sm">
+            <h5 className="bg-yellow-400 font-bold text-xs h-8 flex items-center justify-center rounded-l-sm col-start-2">
               {player1?.name}
             </h5>
-            <h5 className="bg-black text-white font-bold uppercase text-xs py-1 text-center rounded-r-sm">
+            <h5 className="bg-black text-white font-bold text-xs h-8 flex items-center justify-center rounded-r-sm">
               {player2?.name}
             </h5>
+            <div className="col-span-2 col-start-2">
+              <ScoreSwitch
+                labels={{ on: "Simple", off: "Detailed" }}
+                className="w-full mt-2"
+              />
+            </div>
           </div>
           <div className="grid grid-cols-[4rem_1fr_1fr] items-center">
             <span className="text-sm font-bold uppercase after:content-[':'] text-right">
@@ -72,7 +80,9 @@ export const ScoreboardDrawer = () => {
           </div>
         </div>
 
-        <DrawerFooter>
+        <RangeSlider label="How fast was the court?" max={10} />
+
+        <DrawerFooter className="p-0 pt-8">
           <Button size="lg" className="hover:bg-primary/90">
             Submit
           </Button>

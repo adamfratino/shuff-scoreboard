@@ -8,7 +8,7 @@ export const ScoreIterator = () => {
       <Button
         variant="outline"
         size="icon"
-        className="h-8 w-8 shrink-0 rounded-full"
+        className="size-8 shrink-0 rounded-full"
       >
         <Minus className="stroke-3" />
         <span className="sr-only">Decrease</span>
@@ -19,7 +19,7 @@ export const ScoreIterator = () => {
       <Button
         variant="outline"
         size="icon"
-        className="h-8 w-8 shrink-0 rounded-full"
+        className="size-8 shrink-0 rounded-full"
       >
         <Plus className="stroke-3" />
         <span className="sr-only">Increase</span>
