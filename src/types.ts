@@ -3,7 +3,18 @@ export type Score = {
   villain?: number;
 };
 
-export type Player = {
+export type PlayerProfile = {
+  id: number;
   name: string;
-  score: number;
+  location?: string;
+  age?: number;
+  gender?: string;
 };
+
+export type PlayerStats = {
+  rank?: number;
+  wins?: number;
+  losses?: number;
+};
+
+export type Player = PlayerProfile & PlayerStats;
