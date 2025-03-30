@@ -1,26 +1,32 @@
 "use client";
 
-import { useState } from "react";
-
-import { PLAYERS } from "@/MOCK_DATA";
+import { cn } from "@/lib/utils";
 
 import { PlayerDetailsDialog } from "@/components/player-details/player-details-dialog";
+import { usePlayersStore } from "@/stores/players-store";
 
 import { Button } from "@/components/ui/button";
 
 export const ScoreboardHeader = () => {
-  const [activePlayerDetails, setActivePlayerDetails] = useState(PLAYERS[0]);
+  const player1 = usePlayersStore((s) => s.player1);
+  const player2 = usePlayersStore((s) => s.player2);
+
+  const players = [player1, player2];
 
   return (
-    <div className="grid grid-cols-2 max-w-md sticky top-0 z-10 border-b border-b-black">
-      {PLAYERS.map((player) => (
+    <div className="grid grid-cols-2 max-w-md">
+      {players.map((player) => (
         <PlayerDetailsDialog
           key={player.id}
           {...player}
           trigger={
             <Button
               variant="ghost"
-              className="text-xs first:bg-yellow-400 first:hover:!bg-yellow-400/90 first:hover:!text-black bg-black last:text-white font-bold rounded-none h-12"
+              className={cn([
+                "text-xs font-bold rounded-none h-12",
+                "first:bg-yellow-400 first:hover:!bg-yellow-400/90 first:hover:!text-black",
+                "last:bg-black last:text-white last:hover:bg-black/90",
+              ])}
             >
               {player.name}
             </Button>

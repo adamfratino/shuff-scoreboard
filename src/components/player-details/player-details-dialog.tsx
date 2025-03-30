@@ -1,18 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import type { Player } from "@/types";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogClose,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import type { Player } from "@/types";
 
 type DialogProps = React.ComponentProps<typeof Dialog>;
 

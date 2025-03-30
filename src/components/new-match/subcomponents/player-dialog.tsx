@@ -10,7 +10,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { usePlayerStore } from "@/stores/player-store";
+import { usePlayerStore } from "@/stores/players-store";
 
 export const PlayerDialog = () => {
   const open = usePlayerStore((s) => s.open);
