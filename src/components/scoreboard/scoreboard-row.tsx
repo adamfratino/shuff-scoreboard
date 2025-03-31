@@ -1,10 +1,10 @@
+import { HAMMER_PATTERN } from "@/constants";
+
 import { ScoreboardCell, type ScoreboardCellProps } from "./scoreboard-cell";
 
-type ScoreboardRowProps = {
+export type ScoreboardRowProps = {
   frame: number;
 };
-
-const hammerPattern = [0, 1, 1, 0];
 
 export const ScoreboardRow = ({ frame }: ScoreboardRowProps) => {
   return (
@@ -17,7 +17,7 @@ export const ScoreboardRow = ({ frame }: ScoreboardRowProps) => {
           key={i}
           frame={frame + 1}
           position={i as ScoreboardCellProps["position"]}
-          hammer={hammerPattern[frame % hammerPattern.length] === i}
+          hammer={HAMMER_PATTERN[frame % HAMMER_PATTERN.length] === i}
         />
       ))}
     </div>

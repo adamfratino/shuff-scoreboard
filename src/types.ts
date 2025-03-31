@@ -22,15 +22,10 @@ export type ScoreDetails = {
   "-3"?: number;
 };
 
+export type PlayerScore = {
+  [frame: number]: ScoreDetails;
+};
+
 export type ScorePlaintext = {
   [K in keyof ScoreDetails]: string;
-};
-
-export type FrameScore = {
-  player1: ScoreDetails;
-  player2: ScoreDetails;
-};
-
-export type MatchScore = {
-  [frame: number]: FrameScore;
 };

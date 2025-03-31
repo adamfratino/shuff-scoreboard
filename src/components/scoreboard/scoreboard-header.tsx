@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 import { PlayerDetailsDialog } from "@/components/player-details/player-details-dialog";
 import { usePlayersStore } from "@/stores/players-store";
@@ -23,7 +23,7 @@ export const ScoreboardHeader = () => {
             <Button
               variant="ghost"
               className={cn([
-                "text-xs font-bold rounded-none h-12",
+                "text-xs font-bold rounded-none h-8",
                 "first:bg-yellow-400 first:hover:!bg-yellow-400/90 first:hover:!text-black",
                 "last:bg-black last:text-white last:hover:bg-black/90",
               ])}

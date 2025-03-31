@@ -1,5 +1,7 @@
 import type { ScoreDetails, ScorePlaintext } from "./types";
 
+export const HAMMER_PATTERN = [0, 1, 1, 0];
+
 export const DEFAULT_PLAYER_SCORE: ScoreDetails = {
   10: 0,
   8: 0,

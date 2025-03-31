@@ -1,22 +1,17 @@
 import { create } from "zustand";
 
-import type { MatchScore, FrameScore } from "@/types";
+import type { PlayerScore } from "@/types";
 
 export interface ScoreState {
-  player1Score: MatchScore;
-  player2Score: MatchScore;
-  setPlayerScore: (player: 1 | 2, score: MatchScore) => void;
-  /** frame to score */
-  frame: number;
-  setFrame: (frame: number) => void;
+  player1Score: PlayerScore;
+  player2Score: PlayerScore;
+  setPlayerScore: (player: 1 | 2, score: PlayerScore) => void;
 }
 
 export const useScoreStore = create<ScoreState>()((set) => ({
-  frame: 1,
-  setFrame: (frame: number) => set({ frame }),
   player1Score: [],
   player2Score: [],
-  setPlayerScore: (player: 1 | 2, score: MatchScore) => {
+  setPlayerScore: (player: 1 | 2, score: PlayerScore) => {
     if (player === 1) set({ player1Score: score });
     if (player === 2) set({ player2Score: score });
   },

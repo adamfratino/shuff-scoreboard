@@ -1,18 +1,20 @@
 "use client";
 
 import { Hammer } from "lucide-react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 
-import { cn } from "@/lib/utils";
-
-import { useDrawerStore } from "@/stores/drawer-store";
+import { useScoreStore } from "@/stores/score-store";
 import { useSetScoreStore } from "@/stores/set-score-store";
 
+import { calculateFrameTotalScore, cn } from "@/utils";
+
 export type ScoreboardCellProps = {
-  position: 0 | 1;
-  hammer?: boolean;
   frame: number;
+  position: 0 | 1;
+  score?: number;
+  hammer?: boolean;
 };
 
 export const ScoreboardCell = ({
@@ -20,21 +22,28 @@ export const ScoreboardCell = ({
   position,
   frame,
 }: ScoreboardCellProps) => {
-  const setOpen = useDrawerStore((s) => s.setOpen);
-  const setFrame = useSetScoreStore((s) => s.setCurrentFrame);
+  const setOpen = useSetScoreStore((s) => s.setOpen);
+  const setCurrentFrame = useSetScoreStore((s) => s.setCurrentFrame);
+  const { player1Score, player2Score } = useScoreStore();
+
+  const scoresArr = [player1Score, player2Score];
+  const scoreObj = Object.entries(scoresArr[position]).find(
+    (fr) => Number(fr[0]) === frame
+  );
+  const scoreTotal = scoreObj ? calculateFrameTotalScore(scoreObj[1]) : "-";
 
   const handleClick = () => {
-    setFrame(frame);
     setOpen(true);
+    setCurrentFrame(frame);
   };
 
   return (
     <div className="relative aspect-video bg-black text-white even:border-r even:border-dashed even:border-gray-700">
       <Button
         onClick={handleClick}
-        className="h-full text-white text-center text-3xl font-extrabold rounded-none border-0 bg-transparent flex items-center justify-center w-full"
+        className="h-full text-white text-center text-[4rem] font-extrabold rounded-none border-0 bg-transparent flex items-center justify-center w-full"
       >
-        -
+        {scoreTotal}
       </Button>
       {hammer && (
         <Hammer

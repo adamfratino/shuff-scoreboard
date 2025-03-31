@@ -1,27 +1,36 @@
 "use client";
 
 import { Plus, Minus } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 
 type ScoreIteratorProps = {
+  count?: number;
   onPlus?: (count: number) => void;
   onMinus?: (count: number) => void;
 };
 
-export const ScoreIterator = ({ onPlus, onMinus }: ScoreIteratorProps) => {
-  const [count, setCount] = useState(0);
+export const ScoreIterator = ({
+  count = 0,
+  onPlus,
+  onMinus,
+}: ScoreIteratorProps) => {
+  const [localCount, setLocalCount] = useState(0);
 
   const handleMinus = () => {
-    setCount((prevCount) => prevCount - 1);
-    onMinus?.(count - 1);
+    setLocalCount((prevCount) => prevCount - 1);
+    onMinus?.(localCount - 1);
   };
 
   const handlePlus = () => {
-    setCount((prevCount) => prevCount + 1);
-    onPlus?.(count + 1);
+    setLocalCount((prevCount) => prevCount + 1);
+    onPlus?.(localCount + 1);
   };
+
+  useEffect(() => {
+    setLocalCount(count);
+  }, [count]);
 
   return (
     <div className="flex items-center justify-center space-x-2 max-w-32 p-2 mx-auto w-full">
@@ -30,20 +39,20 @@ export const ScoreIterator = ({ onPlus, onMinus }: ScoreIteratorProps) => {
         size="icon"
         className="size-8 shrink-0 rounded-full"
         onClick={handleMinus}
-        disabled={count < 1}
+        disabled={localCount < 1}
       >
         <Minus className="stroke-3" />
         <span className="sr-only">Decrease</span>
       </Button>
       <div className="flex-1 text-center">
-        <span className="text-3xl font-bold tracking-tighter">{count}</span>
+        <span className="text-xl font-bold tracking-tighter">{localCount}</span>
       </div>
       <Button
         variant="outline"
         size="icon"
         className="size-8 shrink-0 rounded-full"
         onClick={handlePlus}
-        disabled={count >= 4}
+        disabled={localCount >= 4}
       >
         <Plus className="stroke-3" />
         <span className="sr-only">Increase</span>
