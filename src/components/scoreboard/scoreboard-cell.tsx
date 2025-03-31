@@ -71,7 +71,7 @@ export const ScoreboardCell = ({
         />
       )}
 
-      {frameScore && (
+      {frameScore ? (
         <span
           className={cn("absolute bottom-2 left-2 text-xs font-bold", {
             "left-auto right-2": position === 1,
@@ -80,7 +80,7 @@ export const ScoreboardCell = ({
         >
           {frameScore}
         </span>
-      )}
+      ) : undefined}
     </div>
   );
 };
