@@ -89,6 +89,10 @@ export const ScoreboardDrawer = () => {
 
   return (
     <DrawerWrapper>
+      <ScoreTotals
+        p1Score={calculateFrameTotalScore(p1ScoreObj)}
+        p2Score={calculateFrameTotalScore(p2ScoreObj)}
+      />
       {[...Object.keys(DEFAULT_PLAYER_SCORE)]
         .sort((a, b) => {
           const order = ["10", "8", "7", "-10"];
@@ -116,10 +120,6 @@ export const ScoreboardDrawer = () => {
             />
           </div>
         ))}
-      <ScoreTotals
-        p1Score={calculateFrameTotalScore(p1ScoreObj)}
-        p2Score={calculateFrameTotalScore(p2ScoreObj)}
-      />
     </DrawerWrapper>
   );
 };

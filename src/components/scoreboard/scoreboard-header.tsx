@@ -14,7 +14,7 @@ export const ScoreboardHeader = () => {
   const players = [player1, player2];
 
   return (
-    <div className="grid grid-cols-2 max-w-md">
+    <div className="grid grid-cols-2 max-w-md top-0 sticky">
       {players.map((player) => (
         <PlayerDetailsDialog
           key={player.id}
@@ -23,7 +23,7 @@ export const ScoreboardHeader = () => {
             <Button
               variant="ghost"
               className={cn([
-                "text-xs font-bold rounded-none h-8",
+                "text-xs font-bold rounded-none h-10",
                 "first:bg-yellow-400 first:hover:!bg-yellow-400/90 first:hover:!text-black",
                 "last:bg-black last:text-white last:hover:bg-black/90",
               ])}

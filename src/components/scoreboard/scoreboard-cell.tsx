@@ -1,6 +1,7 @@
 "use client";
 
-import { Hammer } from "lucide-react";
+import NumberFlow from "@number-flow/react";
+import { Hammer, CookingPot, Cherry } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -35,10 +36,24 @@ export const ScoreboardCell = ({
   const scoreObj = Object.entries(scoresArr[position]).find(
     (fr) => Number(fr[0]) === frame
   );
-  const frameScore = scoreObj
-    ? calculateFrameTotalScore(scoreObj[1])
+
+  const frameData = scoreObj ? scoreObj[1] : undefined;
+  const frameScore = frameData
+    ? calculateFrameTotalScore(frameData)
     : undefined;
   const totalScore = calculateMatchTotalScore(scoresArr[position], frame);
+
+  const previousFrame = frame - 1;
+  const previousTotalScore =
+    previousFrame > 0
+      ? calculateMatchTotalScore(scoresArr[position], previousFrame)
+      : 0;
+
+  const scoreChanged = totalScore !== previousTotalScore;
+  const isUnchangedScore = previousFrame > 0 && scoreObj && !scoreChanged;
+
+  const tenPointCount = frameData ? frameData[10] || 0 : 0;
+  const minusTenPointCount = frameData ? frameData["-10"] || 0 : 0;
 
   const handleClick = () => {
     setOpen(true);
@@ -54,8 +69,26 @@ export const ScoreboardCell = ({
           { "text-red-500": totalScore < 0 }
         )}
       >
-        {scoreObj ? totalScore : <span className="text-white">-</span>}
+        <NumberFlow
+          value={scoreObj ? totalScore : 0}
+          aria-hidden={scoreObj ? "false" : "true"}
+          className={cn("transition-all", {
+            "opacity-0 sr-only": !scoreObj,
+            "opacity-40": isUnchangedScore,
+          })}
+        />
       </Button>
+
+      {!hammer && (
+        <div
+          className={cn(
+            "absolute top-0 h-1/4 translate-y-12 z-10 w-2 bg-white",
+            position === 1
+              ? "left-0 [clip-path:polygon(0_0,0_100%,8px_50%)]" // Left triangle
+              : "right-0 [clip-path:polygon(100%_0,100%_100%,calc(100%-8px)_50%)]" // Right triangle
+          )}
+        />
+      )}
 
       {hammer && (
         <Hammer
@@ -68,14 +101,34 @@ export const ScoreboardCell = ({
 
       {frameScore ? (
         <span
-          className={cn("absolute bottom-2 left-2 text-xs font-bold", {
-            "left-auto right-2": position === 1,
+          className={cn("absolute bottom-2 right-2 text-xs font-bold", {
+            "right-auto left-2": position === 1,
             "text-red-500": frameScore < 0,
           })}
         >
           {frameScore}
         </span>
       ) : undefined}
+
+      {/* Icons for shot scores */}
+      {(tenPointCount > 0 || minusTenPointCount > 0) && (
+        <div
+          className={cn(
+            "absolute bottom-2 flex items-center space-x-1 h-4",
+            position === 0 ? "left-2" : "right-2"
+          )}
+        >
+          {/* Cherry icons for 10-point shots */}
+          {Array.from({ length: tenPointCount }).map((_, i) => (
+            <Cherry key={`cherry-${i}`} size={14} />
+          ))}
+
+          {/* Cooking pot icons for -10-point shots */}
+          {Array.from({ length: minusTenPointCount }).map((_, i) => (
+            <CookingPot key={`pot-${i}`} size={14} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

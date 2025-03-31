@@ -56,7 +56,7 @@ export const DrawerControls = () => {
         </Button>
       </DrawerClose>
 
-      <Button size="xl" className="hover:bg-primary/90" onClick={handleSubmit}>
+      <Button size="lg" className="hover:bg-primary/90" onClick={handleSubmit}>
         Submit
       </Button>
     </DrawerFooter>

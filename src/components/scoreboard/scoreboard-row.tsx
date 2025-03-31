@@ -8,7 +8,7 @@ export type ScoreboardRowProps = {
 
 export const ScoreboardRow = ({ frame }: ScoreboardRowProps) => {
   return (
-    <div className="grid grid-cols-2 sticky top-0">
+    <div className="grid grid-cols-2 sticky top-10">
       <h4 className="col-span-2 bg-gray-700 text-center text-white font-bold text-xs p-1">
         Frame {frame + 1}
       </h4>
