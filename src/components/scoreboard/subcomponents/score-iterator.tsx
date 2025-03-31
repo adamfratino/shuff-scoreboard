@@ -1,5 +1,6 @@
 "use client";
 
+import NumberFlow from "@number-flow/react";
 import { Plus, Minus } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -49,7 +50,10 @@ export const ScoreIterator = ({
         <span className="sr-only">Decrease</span>
       </Button>
       <div className="flex-1 text-center">
-        <span className="text-xl font-bold tracking-tighter">{count}</span>
+        <NumberFlow
+          value={count}
+          className="text-xl font-bold tracking-tighter"
+        />
       </div>
       <Button
         variant="outline"

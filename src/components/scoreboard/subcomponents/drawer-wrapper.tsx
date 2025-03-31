@@ -24,7 +24,6 @@ export const DrawerWrapper = ({ children }: React.PropsWithChildren) => {
           {children}
         </div>
 
-        <ScoreTotals />
         <DrawerControls />
       </DrawerContent>
     </Drawer>

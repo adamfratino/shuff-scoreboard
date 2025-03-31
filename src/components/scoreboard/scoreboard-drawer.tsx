@@ -1,23 +1,31 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { DEFAULT_PLAYER_SCORE, SCORE_PLAINTEXT } from "@/constants";
-import type { ScorePlaintext } from "@/types";
 
 import { useSetScoreStore } from "@/stores/set-score-store";
-
-import { ScoreIterator } from "./subcomponents";
-import { DrawerWrapper } from "./subcomponents/drawer-wrapper";
 import { useScoreStore } from "@/stores/score-store";
 
-export const ScoreboardDrawer = () => {
-  const { currentFrame, p1ScoreObj, p2ScoreObj, setPlayerScoreObject } =
-    useSetScoreStore();
-  const { player1Score, player2Score } = useScoreStore();
+import type { ScorePlaintext } from "@/types";
 
-  const handleIterate = (player: 1 | 2, score: { [score: number]: number }) => {
-    const details = player === 1 ? p1ScoreObj : p2ScoreObj;
-    setPlayerScoreObject(player, { ...details, ...score });
-  };
+import { calculateFrameTotalScore } from "@/utils";
+
+import { DrawerWrapper, ScoreIterator, ScoreTotals } from "./subcomponents";
+
+export const ScoreboardDrawer = () => {
+  const currentFrame = useSetScoreStore((s) => s.currentFrame);
+  const open = useSetScoreStore((s) => s.open);
+
+  const {
+    p1ScoreObj,
+    p2ScoreObj,
+    setPlayerScoreObject,
+    resetScores,
+    setPlayerTotalScore,
+  } = useSetScoreStore();
+
+  const { player1Score, player2Score } = useScoreStore();
 
   const p1Frame = Object.entries(player1Score).find(
     (fr) => Number(fr[0]) === currentFrame
@@ -35,6 +43,49 @@ export const ScoreboardDrawer = () => {
     if (!playerData) return 0;
     return playerData[scoreType as keyof typeof playerData] || 0;
   };
+
+  const handleIterate = (player: 1 | 2, score: { [score: number]: number }) => {
+    const details = player === 1 ? p1ScoreObj : p2ScoreObj;
+    setPlayerScoreObject(player, { ...details, ...score });
+
+    // Update total score immediately when iterating
+    if (player === 1) {
+      const newTotal = calculateFrameTotalScore({ ...p1ScoreObj, ...score });
+      setPlayerTotalScore(1, newTotal);
+    } else {
+      const newTotal = calculateFrameTotalScore({ ...p2ScoreObj, ...score });
+      setPlayerTotalScore(2, newTotal);
+    }
+  };
+
+  // Effect to initialize the drawer when it opens or frame changes
+  useEffect(() => {
+    // First reset scores to zero
+    resetScores();
+
+    // Then initialize with existing data if available
+    if (p1Data) {
+      setPlayerScoreObject(1, p1Data);
+      setPlayerTotalScore(1, calculateFrameTotalScore(p1Data));
+    } else {
+      setPlayerTotalScore(1, 0);
+    }
+
+    if (p2Data) {
+      setPlayerScoreObject(2, p2Data);
+      setPlayerTotalScore(2, calculateFrameTotalScore(p2Data));
+    } else {
+      setPlayerTotalScore(2, 0);
+    }
+  }, [
+    currentFrame,
+    open,
+    p1Data,
+    p2Data,
+    resetScores,
+    setPlayerScoreObject,
+    setPlayerTotalScore,
+  ]);
 
   return (
     <DrawerWrapper>
@@ -65,6 +116,10 @@ export const ScoreboardDrawer = () => {
             />
           </div>
         ))}
+      <ScoreTotals
+        p1Score={calculateFrameTotalScore(p1ScoreObj)}
+        p2Score={calculateFrameTotalScore(p2ScoreObj)}
+      />
     </DrawerWrapper>
   );
 };

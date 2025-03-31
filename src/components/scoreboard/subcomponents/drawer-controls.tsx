@@ -24,13 +24,8 @@ export const DrawerControls = () => {
       const existingP1Frame = player1Score[currentFrame];
       const existingP2Frame = player2Score[currentFrame];
 
-      if (existingP1Frame) {
-        setPlayerScoreObject(1, existingP1Frame);
-      }
-
-      if (existingP2Frame) {
-        setPlayerScoreObject(2, existingP2Frame);
-      }
+      if (existingP1Frame) setPlayerScoreObject(1, existingP1Frame);
+      if (existingP2Frame) setPlayerScoreObject(2, existingP2Frame);
     }
   }, [currentFrame, player1Score, player2Score, setPlayerScoreObject]);
 
@@ -55,10 +50,6 @@ export const DrawerControls = () => {
 
   return (
     <DrawerFooter className="p-0 pt-1">
-      {/* <Button variant="secondary" size="lg" onClick={resetScores}>
-        Reset
-      </Button> */}
-
       <DrawerClose asChild>
         <Button variant="outline" size="lg" onClick={handleCancel}>
           Cancel

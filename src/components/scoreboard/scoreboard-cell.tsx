@@ -1,7 +1,6 @@
 "use client";
 
 import { Hammer } from "lucide-react";
-import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 
@@ -26,9 +25,11 @@ export const ScoreboardCell = ({
   position,
   frame,
 }: ScoreboardCellProps) => {
+  const player1Score = useScoreStore((s) => s.player1Score);
+  const player2Score = useScoreStore((s) => s.player2Score);
+
   const setOpen = useSetScoreStore((s) => s.setOpen);
   const setCurrentFrame = useSetScoreStore((s) => s.setCurrentFrame);
-  const { player1Score, player2Score } = useScoreStore();
 
   const scoresArr = [player1Score, player2Score];
   const scoreObj = Object.entries(scoresArr[position]).find(
@@ -53,13 +54,7 @@ export const ScoreboardCell = ({
           { "text-red-500": totalScore < 0 }
         )}
       >
-        {frameScore ? (
-          totalScore
-        ) : (
-          <span aria-label="No score yet" className="text-white">
-            -
-          </span>
-        )}
+        {scoreObj ? totalScore : <span className="text-white">-</span>}
       </Button>
 
       {hammer && (
