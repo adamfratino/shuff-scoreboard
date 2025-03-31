@@ -31,6 +31,10 @@ export const DrawerControls = () => {
 
   return (
     <DrawerFooter className="p-0 pt-1">
+      <Button size="xl" className="hover:bg-primary/90" onClick={handleSubmit}>
+        Submit
+      </Button>
+
       <div className="grid grid-cols-2 gap-2">
         <Button variant="outline" size="lg" onClick={resetScores}>
           Reset
@@ -42,10 +46,6 @@ export const DrawerControls = () => {
           </Button>
         </DrawerClose>
       </div>
-
-      <Button size="xl" className="hover:bg-primary/90" onClick={handleSubmit}>
-        Submit
-      </Button>
     </DrawerFooter>
   );
 };

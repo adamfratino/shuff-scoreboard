@@ -8,7 +8,11 @@ import { Button } from "@/components/ui/button";
 import { useScoreStore } from "@/stores/score-store";
 import { useSetScoreStore } from "@/stores/set-score-store";
 
-import { calculateFrameTotalScore, cn } from "@/utils";
+import {
+  calculateFrameTotalScore,
+  calculateMatchTotalScore,
+  cn,
+} from "@/utils";
 
 export type ScoreboardCellProps = {
   frame: number;
@@ -30,7 +34,10 @@ export const ScoreboardCell = ({
   const scoreObj = Object.entries(scoresArr[position]).find(
     (fr) => Number(fr[0]) === frame
   );
-  const scoreTotal = scoreObj ? calculateFrameTotalScore(scoreObj[1]) : "-";
+  const frameScore = scoreObj
+    ? calculateFrameTotalScore(scoreObj[1])
+    : undefined;
+  const totalScore = calculateMatchTotalScore(scoresArr[position], frame);
 
   const handleClick = () => {
     setOpen(true);
@@ -41,17 +48,40 @@ export const ScoreboardCell = ({
     <div className="relative aspect-video bg-black text-white even:border-r even:border-dashed even:border-gray-700">
       <Button
         onClick={handleClick}
-        className="h-full text-white text-center text-[4rem] font-extrabold rounded-none border-0 bg-transparent flex items-center justify-center w-full"
+        className={cn(
+          "h-full text-white text-center text-[4rem] font-extrabold rounded-none border-0 bg-transparent flex items-center justify-center w-full",
+          {
+            "text-red-500": totalScore < 0,
+          }
+        )}
       >
-        {scoreTotal}
+        {frameScore ? (
+          totalScore
+        ) : (
+          <span aria-label="No score yet" className="text-white">
+            -
+          </span>
+        )}
       </Button>
+
       {hammer && (
         <Hammer
           size={16}
-          className={cn("absolute stroke-white bottom-2 left-2", {
+          className={cn("absolute stroke-white top-2 left-2", {
             "left-auto right-2": position === 1,
           })}
         />
+      )}
+
+      {frameScore && (
+        <span
+          className={cn("absolute bottom-2 left-2 text-xs font-bold", {
+            "left-auto right-2": position === 1,
+            "text-red-500": frameScore < 0,
+          })}
+        >
+          {frameScore}
+        </span>
       )}
     </div>
   );
