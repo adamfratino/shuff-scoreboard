@@ -50,9 +50,7 @@ export const ScoreboardCell = ({
         onClick={handleClick}
         className={cn(
           "h-full text-white text-center text-[4rem] font-extrabold rounded-none border-0 bg-transparent flex items-center justify-center w-full",
-          {
-            "text-red-500": totalScore < 0,
-          }
+          { "text-red-500": totalScore < 0 }
         )}
       >
         {frameScore ? (

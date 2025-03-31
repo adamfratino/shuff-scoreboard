@@ -6,30 +6,34 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 type ScoreIteratorProps = {
-  count?: number;
+  initialValue?: number;
   onPlus?: (count: number) => void;
   onMinus?: (count: number) => void;
 };
 
 export const ScoreIterator = ({
-  count = 0,
+  initialValue = 0,
   onPlus,
   onMinus,
 }: ScoreIteratorProps) => {
-  const [localCount, setLocalCount] = useState(0);
+  const [count, setCount] = useState(initialValue);
 
   const handleMinus = () => {
-    setLocalCount((prevCount) => prevCount - 1);
-    onMinus?.(localCount - 1);
+    const newValue = count - 1;
+
+    setCount(newValue);
+    onMinus?.(newValue);
   };
 
   const handlePlus = () => {
-    setLocalCount((prevCount) => prevCount + 1);
-    onPlus?.(localCount + 1);
+    const newValue = count + 1;
+
+    setCount(newValue);
+    onPlus?.(newValue);
   };
 
   useEffect(() => {
-    setLocalCount(count);
+    setCount(count);
   }, [count]);
 
   return (
@@ -39,20 +43,20 @@ export const ScoreIterator = ({
         size="icon"
         className="size-8 shrink-0 rounded-full"
         onClick={handleMinus}
-        disabled={localCount < 1}
+        disabled={count < 1}
       >
         <Minus className="stroke-3" />
         <span className="sr-only">Decrease</span>
       </Button>
       <div className="flex-1 text-center">
-        <span className="text-xl font-bold tracking-tighter">{localCount}</span>
+        <span className="text-xl font-bold tracking-tighter">{count}</span>
       </div>
       <Button
         variant="outline"
         size="icon"
         className="size-8 shrink-0 rounded-full"
         onClick={handlePlus}
-        disabled={localCount >= 4}
+        disabled={count >= 4}
       >
         <Plus className="stroke-3" />
         <span className="sr-only">Increase</span>
