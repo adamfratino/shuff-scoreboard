@@ -2,7 +2,13 @@
 
 import { useEffect } from "react";
 
-import { DEFAULT_PLAYER_SCORE, SCORE_PLAINTEXT } from "@/constants";
+import {
+  DEFAULT_PLAYER_SCORE,
+  SCORE_PLAINTEXT,
+  COUNTED_SCORE_TYPES,
+  SCORE_DISPLAY_ORDER,
+  HAMMER_SEGMENTS,
+} from "@/constants";
 
 import { useSetScoreStore } from "@/stores/set-score-store";
 import { useScoreStore } from "@/stores/score-store";
@@ -11,7 +17,12 @@ import type { ScorePlaintext } from "@/types";
 
 import { calculateFrameTotalScore } from "@/utils";
 
-import { DrawerWrapper, ScoreIterator, ScoreTotals } from "./subcomponents";
+import {
+  DrawerWrapper,
+  ScoreIterator,
+  ScoreTotals,
+  HammerSegments,
+} from "./subcomponents";
 
 export const ScoreboardDrawer = () => {
   const currentFrame = useSetScoreStore((s) => s.currentFrame);
@@ -38,6 +49,17 @@ export const ScoreboardDrawer = () => {
   const p1Data = p1Frame ? p1Frame[1] : undefined;
   const p2Data = p2Frame ? p2Frame[1] : undefined;
 
+  const getPlayerTotalShots = (playerObj: any) => {
+    if (!playerObj) return 0;
+
+    return COUNTED_SCORE_TYPES.reduce((total, scoreType) => {
+      return total + (playerObj[scoreType] || 0);
+    }, 0);
+  };
+
+  const p1TotalShots = getPlayerTotalShots(p1ScoreObj);
+  const p2TotalShots = getPlayerTotalShots(p2ScoreObj);
+
   const getInitialCount = (player: 1 | 2, scoreType: string): number => {
     const playerData = player === 1 ? p1Data : p2Data;
     if (!playerData) return 0;
@@ -48,7 +70,6 @@ export const ScoreboardDrawer = () => {
     const details = player === 1 ? p1ScoreObj : p2ScoreObj;
     setPlayerScoreObject(player, { ...details, ...score });
 
-    // Update total score immediately when iterating
     if (player === 1) {
       const newTotal = calculateFrameTotalScore({ ...p1ScoreObj, ...score });
       setPlayerTotalScore(1, newTotal);
@@ -58,12 +79,20 @@ export const ScoreboardDrawer = () => {
     }
   };
 
+  const shouldDisableIterator = (
+    player: 1 | 2,
+    scoreType: string,
+    count: number
+  ) => {
+    const totalShots = player === 1 ? p1TotalShots : p2TotalShots;
+    if (!COUNTED_SCORE_TYPES.includes(scoreType)) return false;
+    return count >= 4 || totalShots >= 4;
+  };
+
   // Effect to initialize the drawer when it opens or frame changes
   useEffect(() => {
-    // First reset scores to zero
     resetScores();
 
-    // Then initialize with existing data if available
     if (p1Data) {
       setPlayerScoreObject(1, p1Data);
       setPlayerTotalScore(1, calculateFrameTotalScore(p1Data));
@@ -95,7 +124,7 @@ export const ScoreboardDrawer = () => {
       />
       {[...Object.keys(DEFAULT_PLAYER_SCORE)]
         .sort((a, b) => {
-          const order = ["10", "8", "7", "-10"];
+          const order = SCORE_DISPLAY_ORDER;
           return order.indexOf(a) - order.indexOf(b);
         })
         .map((name) => (
@@ -111,12 +140,14 @@ export const ScoreboardDrawer = () => {
               initialValue={getInitialCount(1, name)}
               onPlus={(count) => handleIterate(1, { [name]: count })}
               onMinus={(count) => handleIterate(1, { [name]: count })}
+              plusDisabled={shouldDisableIterator(1, name, p1TotalShots)}
             />
 
             <ScoreIterator
               initialValue={getInitialCount(2, name)}
               onPlus={(count) => handleIterate(2, { [name]: count })}
               onMinus={(count) => handleIterate(2, { [name]: count })}
+              plusDisabled={shouldDisableIterator(2, name, p2TotalShots)}
             />
           </div>
         ))}

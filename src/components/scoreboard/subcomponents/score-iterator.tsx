@@ -10,12 +10,16 @@ type ScoreIteratorProps = {
   initialValue?: number;
   onPlus?: (count: number) => void;
   onMinus?: (count: number) => void;
+  plusDisabled?: boolean;
+  minusDisabled?: boolean;
 };
 
 export const ScoreIterator = ({
-  initialValue = 0,
   onPlus,
   onMinus,
+  plusDisabled,
+  minusDisabled,
+  initialValue = 0,
 }: ScoreIteratorProps) => {
   const [count, setCount] = useState(initialValue);
 
@@ -44,7 +48,7 @@ export const ScoreIterator = ({
         size="icon"
         className="size-8 shrink-0 rounded-full"
         onClick={handleMinus}
-        disabled={count < 1}
+        disabled={count < 1 || minusDisabled}
       >
         <Minus className="stroke-3" />
         <span className="sr-only">Decrease</span>
@@ -60,7 +64,7 @@ export const ScoreIterator = ({
         size="icon"
         className="size-8 shrink-0 rounded-full"
         onClick={handlePlus}
-        disabled={count >= 4}
+        disabled={count >= 4 || plusDisabled}
       >
         <Plus className="stroke-3" />
         <span className="sr-only">Increase</span>

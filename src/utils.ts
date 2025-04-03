@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { POSITIVE_SCORES } from "./constants";
+
 import type { ScoreDetails } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -37,4 +39,16 @@ export const calculateMatchTotalScore = (
     const frameScore = matchScore[frameNumber];
     return total + calculateFrameTotalScore(frameScore);
   }, 0);
+};
+
+export const sumPositiveScoreCounts = (obj?: ScoreDetails): number => {
+  if (!obj) return 0;
+
+  let sum = 0;
+
+  for (const key of POSITIVE_SCORES) {
+    sum += obj[key] || 0;
+  }
+
+  return sum;
 };

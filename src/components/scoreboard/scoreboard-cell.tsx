@@ -1,14 +1,13 @@
 "use client";
 
 import NumberFlow from "@number-flow/react";
-import { Hammer, CookingPot, Cherry } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import { Hammer, CookingPot, Cherry, Crown, Siren, Pizza } from "lucide-react";
 
 import { useScoreStore } from "@/stores/score-store";
 import { useSetScoreStore } from "@/stores/set-score-store";
 
 import {
+  sumPositiveScoreCounts,
   calculateFrameTotalScore,
   calculateMatchTotalScore,
   cn,
@@ -17,14 +16,16 @@ import {
 export type ScoreboardCellProps = {
   frame: number;
   position: 0 | 1;
-  score?: number;
-  hammer?: boolean;
+  isWinner?: boolean;
+  isHammer?: boolean;
+  disabled?: boolean;
 };
 
 export const ScoreboardCell = ({
-  hammer,
+  isHammer,
   position,
   frame,
+  disabled,
 }: ScoreboardCellProps) => {
   const player1Score = useScoreStore((s) => s.player1Score);
   const player2Score = useScoreStore((s) => s.player2Score);
@@ -36,12 +37,22 @@ export const ScoreboardCell = ({
   const scoreObj = Object.entries(scoresArr[position]).find(
     (fr) => Number(fr[0]) === frame
   );
+  const oppScoreObj = Object.entries(scoresArr[1 - position]).find(
+    (fr) => Number(fr[0]) === frame
+  );
 
   const frameData = scoreObj ? scoreObj[1] : undefined;
+  const oppFrameData = scoreObj ? oppScoreObj![1] : undefined;
+
   const frameScore = frameData
     ? calculateFrameTotalScore(frameData)
     : undefined;
+  const oppFrameScore = frameData
+    ? calculateFrameTotalScore(oppFrameData!)
+    : undefined;
   const totalScore = calculateMatchTotalScore(scoresArr[position], frame);
+
+  const isWinner = frameScore! > oppFrameScore!;
 
   const previousFrame = frame - 1;
   const previousTotalScore =
@@ -55,6 +66,8 @@ export const ScoreboardCell = ({
   const tenPointCount = frameData ? frameData[10] || 0 : 0;
   const minusTenPointCount = frameData ? frameData["-10"] || 0 : 0;
 
+  const isPepperoni = sumPositiveScoreCounts(frameData) === 4;
+
   const handleClick = () => {
     setOpen(true);
     setCurrentFrame(frame);
@@ -62,10 +75,11 @@ export const ScoreboardCell = ({
 
   return (
     <div className="relative aspect-video bg-black text-white even:border-r even:border-dashed even:border-gray-700">
-      <Button
+      <button
         onClick={handleClick}
+        disabled={disabled}
         className={cn(
-          "h-full text-white text-center text-[4rem] font-extrabold rounded-none border-0 bg-transparent flex items-center justify-center w-full",
+          "h-full text-white text-center text-[4rem] font-extrabold rounded-none border-0 bg-transparent flex items-center justify-center w-full transition-all disabled:opacity-50 disabled:pointer-events-none",
           { "text-red-500": totalScore < 0 }
         )}
       >
@@ -77,24 +91,37 @@ export const ScoreboardCell = ({
             "opacity-40": isUnchangedScore,
           })}
         />
-      </Button>
+      </button>
 
-      {!hammer && (
+      {!isHammer && (
         <div
           className={cn(
             "absolute top-0 h-1/4 translate-y-12 z-10 w-2 bg-white",
             position === 1
               ? "left-0 [clip-path:polygon(0_0,0_100%,8px_50%)]" // Left triangle
-              : "right-0 [clip-path:polygon(100%_0,100%_100%,calc(100%-8px)_50%)]" // Right triangle
+              : "right-0 [clip-path:polygon(100%_0,100%_100%,calc(100%-8px)_50%)]", // Right triangle
+            { "bg-gray-500": disabled }
           )}
         />
       )}
 
-      {hammer && (
+      {isWinner && (
+        <div
+          className={cn("absolute flex gap-1 top-2 right-2", {
+            "right-auto left-2": position === 1,
+          })}
+        >
+          <Crown size={14} />
+          {!isHammer && <Siren size={14} />}
+        </div>
+      )}
+
+      {isHammer && (
         <Hammer
           size={16}
           className={cn("absolute stroke-white top-2 left-2", {
             "left-auto right-2": position === 1,
+            "stroke-gray-500": disabled,
           })}
         />
       )}
@@ -110,7 +137,6 @@ export const ScoreboardCell = ({
         </span>
       ) : undefined}
 
-      {/* Icons for shot scores */}
       {(tenPointCount > 0 || minusTenPointCount > 0) && (
         <div
           className={cn(
@@ -118,15 +144,15 @@ export const ScoreboardCell = ({
             position === 0 ? "left-2" : "right-2"
           )}
         >
-          {/* Cherry icons for 10-point shots */}
           {Array.from({ length: tenPointCount }).map((_, i) => (
             <Cherry key={`cherry-${i}`} size={14} />
           ))}
 
-          {/* Cooking pot icons for -10-point shots */}
           {Array.from({ length: minusTenPointCount }).map((_, i) => (
             <CookingPot key={`pot-${i}`} size={14} />
           ))}
+
+          {isPepperoni && <Pizza size={14} />}
         </div>
       )}
     </div>

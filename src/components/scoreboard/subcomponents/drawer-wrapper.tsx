@@ -15,7 +15,7 @@ export const DrawerWrapper = ({ children }: React.PropsWithChildren) => {
     <Drawer open={open}>
       <DrawerContent
         onOverlayClick={() => setOpen(false)}
-        className="p-4 pb-8"
+        className="p-4 pb-8 max-w-120 mx-auto"
         data-vaul-no-drag
       >
         <DrawerHeader />
