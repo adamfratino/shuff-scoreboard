@@ -33,7 +33,11 @@ export const ScoreboardRow = ({
   const isSwitchFrame = frame === SWITCH_FRAME_NUMBER;
 
   return (
-    <ScoreboardRowWrapper frame={frame} disabled={disabled}>
+    <ScoreboardRowWrapper
+      frame={frame}
+      disabled={disabled}
+      switchFrame={SWITCH_FRAME_NUMBER}
+    >
       {isSwitchFrame && (
         <ScoreboardHeader reverse className="border-t border-t-gray-900" />
       )}
@@ -73,13 +77,21 @@ ScoreboardRow.displayName = "ScoreboardRow";
 const ScoreboardRowWrapper = ({
   frame,
   disabled,
+  switchFrame,
   children,
-}: React.PropsWithChildren<Pick<ScoreboardRowProps, "disabled" | "frame">>) => (
+}: React.PropsWithChildren<Pick<ScoreboardRowProps, "disabled" | "frame">> & {
+  switchFrame?: number;
+}) => (
   <li
     className={cn("sticky", {
       "hover:[&_button]:bg-primary/10": !disabled,
     })}
-    style={{ top: `calc(${HEADER_HEIGHT}px + ${STICKY_OFFSET}px * ${frame})` }}
+    style={{
+      top:
+        switchFrame && switchFrame + 1 <= frame
+          ? `calc(${HEADER_HEIGHT * 2}px + ${STICKY_OFFSET}px * ${frame})`
+          : `calc(${HEADER_HEIGHT}px + ${STICKY_OFFSET}px * ${frame})`,
+    }}
   >
     {children}
   </li>
