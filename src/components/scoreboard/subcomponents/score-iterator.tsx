@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 
+import { useSetScoreStore } from "@/stores/set-score-store";
+
 type ScoreIteratorProps = {
   initialValue?: number;
   onPlus?: (count: number) => void;
@@ -25,14 +27,12 @@ export const ScoreIterator = ({
 
   const handleMinus = () => {
     const newValue = count - 1;
-
     setCount(newValue);
     onMinus?.(newValue);
   };
 
   const handlePlus = () => {
     const newValue = count + 1;
-
     setCount(newValue);
     onPlus?.(newValue);
   };

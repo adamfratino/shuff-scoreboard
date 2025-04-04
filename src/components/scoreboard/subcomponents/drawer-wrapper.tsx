@@ -1,15 +1,16 @@
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
 
 import { useSetScoreStore } from "@/stores/set-score-store";
 
 import { DrawerHeader } from "./drawer-header";
 import { DrawerNames } from "./drawer-names";
-import { ScoreTotals } from "./score-totals";
 import { DrawerControls } from "./drawer-controls";
 
 export const DrawerWrapper = ({ children }: React.PropsWithChildren) => {
   const open = useSetScoreStore((s) => s.open);
   const setOpen = useSetScoreStore((s) => s.setOpen);
+  const resetScores = useSetScoreStore((s) => s.resetScores);
 
   return (
     <Drawer open={open}>
@@ -18,7 +19,17 @@ export const DrawerWrapper = ({ children }: React.PropsWithChildren) => {
         className="p-4 pb-8 max-w-120 mx-auto"
         data-vaul-no-drag
       >
-        <DrawerHeader />
+        <div className="w-full flex justify-between items-center">
+          <DrawerHeader />
+          <Button
+            onClick={resetScores}
+            size="sm"
+            variant="outline"
+            disabled={true} /** @todo figure this out */
+          >
+            Clear scores
+          </Button>
+        </div>
         <div className="w-full mx-auto pb-2">
           <DrawerNames />
           {children}

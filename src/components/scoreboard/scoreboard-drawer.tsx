@@ -7,7 +7,6 @@ import {
   SCORE_PLAINTEXT,
   COUNTED_SCORE_TYPES,
   SCORE_DISPLAY_ORDER,
-  HAMMER_SEGMENTS,
 } from "@/constants";
 
 import { useSetScoreStore } from "@/stores/set-score-store";
@@ -17,12 +16,7 @@ import type { ScorePlaintext } from "@/types";
 
 import { calculateFrameTotalScore } from "@/utils";
 
-import {
-  DrawerWrapper,
-  ScoreIterator,
-  ScoreTotals,
-  HammerSegments,
-} from "./subcomponents";
+import { DrawerWrapper, ScoreIterator, ScoreTotals } from "./subcomponents";
 
 export const ScoreboardDrawer = () => {
   const currentFrame = useSetScoreStore((s) => s.currentFrame);

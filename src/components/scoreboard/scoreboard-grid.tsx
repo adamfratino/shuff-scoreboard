@@ -7,8 +7,11 @@ import { ScoreboardHeader } from "./scoreboard-header";
 import { ScoreboardRow } from "./scoreboard-row";
 
 export const ScoreboardGrid = () => {
-  const frames = useScoreboardStore((s) => s.frames);
+  const { frames, getSwitchFrame, switchSides } = useScoreboardStore();
+  /** unused but imported to refresh disabled state */
   const { player1Score, player2Score, isFrameScored } = useScoreStore();
+
+  const switchFrame = getSwitchFrame();
 
   return (
     <main className="min-h-[100dvh]">
@@ -19,6 +22,7 @@ export const ScoreboardGrid = () => {
             key={frame}
             frame={frame}
             disabled={frame > 0 && !isFrameScored(frame)}
+            hasSwitched={switchSides ? frame >= switchFrame! : undefined}
           />
         ))}
       </div>

@@ -1,3 +1,6 @@
+export type Frame = number;
+export type Position = 0 | 1;
+
 export type PlayerProfile = {
   id: number;
   name: string;
@@ -23,7 +26,7 @@ export type ScoreDetails = {
 };
 
 export type PlayerScore = {
-  [frame: number]: ScoreDetails;
+  [frame: Frame]: ScoreDetails;
 };
 
 export type ScorePlaintext = {
