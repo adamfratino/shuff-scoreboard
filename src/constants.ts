@@ -31,5 +31,6 @@ export const SCORE_PLAINTEXT: ScorePlaintext = {
 export const HAMMER_PATTERN = [1, 0, 0, 1];
 
 /** style stuff */
+export const HEADER_HEIGHT = 40;
 export const SCOREBOARD_CELL_ICON_SIZE = 14;
-export const STICKY_OFFSET = 56;
+export const STICKY_OFFSET = 52;

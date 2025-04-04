@@ -1,4 +1,4 @@
-import { HAMMER_PATTERN, STICKY_OFFSET } from "@/constants";
+import { HAMMER_PATTERN, HEADER_HEIGHT, STICKY_OFFSET } from "@/constants";
 import { cn } from "@/utils";
 import { Position } from "@/types";
 
@@ -64,14 +64,14 @@ const ScoreboardRowWrapper = ({
   disabled,
   children,
 }: React.PropsWithChildren<Pick<ScoreboardRowProps, "disabled" | "frame">>) => (
-  <div
+  <li
     className={cn("sticky", {
       "hover:[&_button]:bg-primary/10": !disabled,
     })}
-    style={{ top: `calc(${STICKY_OFFSET}px*${frame})` }}
+    style={{ top: `calc(${HEADER_HEIGHT}px + ${STICKY_OFFSET}px * ${frame})` }}
   >
     {children}
-  </div>
+  </li>
 );
 ScoreboardRowWrapper.displayName = "ScoreboardRowWrapper";
 

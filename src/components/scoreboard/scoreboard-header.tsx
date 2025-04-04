@@ -14,7 +14,7 @@ export const ScoreboardHeader = () => {
   const players = [player1, player2];
 
   return (
-    <div className="grid grid-cols-2 max-w-md top-0 sticky">
+    <header className="grid grid-cols-2 max-w-md top-0 sticky">
       {players.map((player) => (
         <PlayerDetailsDialog
           key={player.id}
@@ -33,7 +33,7 @@ export const ScoreboardHeader = () => {
           }
         />
       ))}
-    </div>
+    </header>
   );
 };
 ScoreboardHeader.displayName = "ScoreboardHeader";

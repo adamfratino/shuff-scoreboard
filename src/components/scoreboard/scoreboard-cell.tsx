@@ -5,7 +5,6 @@ import {
   ScoreboardCellArrows,
   ScoreboardCellFrameScore,
   ScoreboardCellAchievements,
-  ScoreboardRowHammer,
 } from "./subcomponents";
 
 export type ScoreboardCellProps = {
@@ -53,20 +52,6 @@ export const ScoreboardCell = ({
         position={position}
         reverse={reverse}
       />
-
-      {/* {(isWinner || isHammer) && (
-        <div
-          className={cn("flex gap-1 absolute top-2 left-2", {
-            "left-auto right-2": position === 1,
-            "flex-row-reverse": position === 0,
-            "stroke-gray-500": disabled,
-          })}
-        >
-          {isWinner && <Crown size={14} />}
-          {isWinner && !isHammer && <Siren size={14} />}
-          {isHammer && <Hammer size={16} />}
-        </div>
-      )} */}
     </div>
   );
 };

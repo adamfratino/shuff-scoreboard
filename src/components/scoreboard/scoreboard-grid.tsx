@@ -14,19 +14,21 @@ export const ScoreboardGrid = () => {
   const switchFrame = getSwitchFrame();
 
   return (
-    <main className="min-h-[100dvh]">
-      <div className="max-w-md border border-dashed border-gray-700 border-t-0 mx-auto">
-        <ScoreboardHeader />
-        {[...Array(frames).keys()].map((_, frame) => (
-          <ScoreboardRow
-            key={frame}
-            frame={frame}
-            disabled={frame > 0 && !isFrameScored(frame)}
-            hasSwitched={switchSides ? frame >= switchFrame! : undefined}
-          />
-        ))}
-      </div>
-    </main>
+    <>
+      <ScoreboardHeader />
+      <main className="max-w-md mx-auto">
+        <ul>
+          {[...Array(frames).keys()].map((_, frame) => (
+            <ScoreboardRow
+              key={frame}
+              frame={frame}
+              disabled={frame > 0 && !isFrameScored(frame)}
+              hasSwitched={switchSides ? frame >= switchFrame! : undefined}
+            />
+          ))}
+        </ul>
+      </main>
+    </>
   );
 };
 ScoreboardGrid.displayName = "ScoreboardGrid";

@@ -28,8 +28,11 @@ export const ScoreboardCellAchievements = ({
   return (
     <div
       className={cn(
-        "absolute bottom-2 flex items-center space-x-1 h-4",
-        position === 0 || (position === 1 && reverse) ? "left-2" : "right-2"
+        "absolute bottom-2 flex items-center space-x-1 h-4 left-auto right-2",
+        position === 0 || (position === 1 && reverse)
+          ? "left-2"
+          : "left-auto right-2",
+        { "left-auto right-2": position === 0 && reverse }
       )}
     >
       {Array.from({ length: tenPointCount }).map((_, i) => (
