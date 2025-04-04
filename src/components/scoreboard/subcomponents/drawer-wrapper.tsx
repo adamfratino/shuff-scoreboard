@@ -1,10 +1,11 @@
+"use client";
+
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 
 import { useSetScoreStore } from "@/stores/set-score-store";
 
 import { DrawerHeader } from "./drawer-header";
-import { DrawerNames } from "./drawer-names";
 import { DrawerControls } from "./drawer-controls";
 
 export const DrawerWrapper = ({ children }: React.PropsWithChildren) => {
@@ -25,15 +26,13 @@ export const DrawerWrapper = ({ children }: React.PropsWithChildren) => {
             onClick={resetScores}
             size="sm"
             variant="outline"
-            disabled={true} /** @todo figure this out */
+            /** @todo figure out clear button condition/behavior */
+            disabled={true}
           >
             Clear scores
           </Button>
         </div>
-        <div className="w-full mx-auto pb-2">
-          <DrawerNames />
-          {children}
-        </div>
+        <div className="w-full mx-auto pb-2">{children}</div>
 
         <DrawerControls />
       </DrawerContent>

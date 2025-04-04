@@ -11,7 +11,7 @@ export const ScoreboardGrid = () => {
   /** unused but imported to refresh disabled state */
   const { player1Score, player2Score, isFrameScored } = useScoreStore();
 
-  const switchFrame = getSwitchFrame();
+  const SWITCH_FRAME = getSwitchFrame();
 
   return (
     <>
@@ -23,7 +23,7 @@ export const ScoreboardGrid = () => {
               key={frame}
               frame={frame}
               disabled={frame > 0 && !isFrameScored(frame)}
-              hasSwitched={switchSides ? frame >= switchFrame! : undefined}
+              hasSwitched={switchSides ? frame >= SWITCH_FRAME! : undefined}
             />
           ))}
         </ul>

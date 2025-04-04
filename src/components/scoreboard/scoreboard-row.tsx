@@ -1,8 +1,10 @@
 import { HAMMER_PATTERN, HEADER_HEIGHT, STICKY_OFFSET } from "@/constants";
+import { useScoreboardStore } from "@/stores/scoreboard-store";
 import { cn } from "@/utils";
 import { Position } from "@/types";
 
 import { ScoreboardCell, type ScoreboardCellProps } from "./scoreboard-cell";
+import { ScoreboardHeader } from "./scoreboard-header";
 import {
   ScoreboardRowHammer,
   ScoreboardRowHeader,
@@ -20,13 +22,22 @@ export const ScoreboardRow = ({
   disabled,
   hasSwitched,
 }: ScoreboardRowProps) => {
+  const getSwitchFrame = useScoreboardStore((s) => s.getSwitchFrame);
+
   const FRAME_NUMBER = frame + 1;
+  const SWITCH_FRAME_NUMBER = getSwitchFrame();
   const HAMMER_POSITION = HAMMER_PATTERN[
     frame % HAMMER_PATTERN.length
   ] as Position;
 
+  const isSwitchFrame = frame === SWITCH_FRAME_NUMBER;
+
   return (
     <ScoreboardRowWrapper frame={frame} disabled={disabled}>
+      {isSwitchFrame && (
+        <ScoreboardHeader reverse className="border-t border-t-gray-900" />
+      )}
+
       <ScoreboardRowHeader
         frame={FRAME_NUMBER}
         disabled={disabled}

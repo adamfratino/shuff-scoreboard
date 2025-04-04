@@ -1,20 +1,30 @@
 "use client";
 
+import { PlayerDetailsDialog } from "@/components/player-details/player-details-dialog";
+import { Button } from "@/components/ui/button";
+import { usePlayersStore } from "@/stores/players-store";
 import { cn } from "@/utils";
 
-import { PlayerDetailsDialog } from "@/components/player-details/player-details-dialog";
-import { usePlayersStore } from "@/stores/players-store";
+type ScoreboardHeaderProps = {
+  reverse?: boolean;
+  className?: string;
+};
 
-import { Button } from "@/components/ui/button";
-
-export const ScoreboardHeader = () => {
+export const ScoreboardHeader = ({
+  reverse,
+  className,
+}: ScoreboardHeaderProps) => {
   const player1 = usePlayersStore((s) => s.player1);
   const player2 = usePlayersStore((s) => s.player2);
 
   const players = [player1, player2];
 
   return (
-    <header className="grid grid-cols-2 max-w-md top-0 sticky">
+    <header
+      className={cn("flex [&>*]:flex-1 max-w-md top-0 sticky", className, {
+        "flex-row-reverse": reverse,
+      })}
+    >
       {players.map((player) => (
         <PlayerDetailsDialog
           key={player.id}
@@ -26,6 +36,10 @@ export const ScoreboardHeader = () => {
                 "text-xs font-bold rounded-none h-10",
                 "first:bg-yellow-400 first:hover:!bg-yellow-400/90 first:hover:!text-black",
                 "last:bg-black last:text-white last:hover:bg-black/90",
+                {
+                  "first:bg-black first:text-white last:bg-yellow-400 last:text-black":
+                    reverse,
+                },
               ])}
             >
               {player.name}
