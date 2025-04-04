@@ -5,6 +5,7 @@ import { useScoreStore } from "@/stores/score-store";
 
 import { ScoreboardHeader } from "./scoreboard-header";
 import { ScoreboardRow } from "./scoreboard-row";
+import { ScoreboardFooter } from "./scoreboard-footer";
 
 export const ScoreboardGrid = () => {
   const { frames, getSwitchFrame, switchSides } = useScoreboardStore();
@@ -16,7 +17,9 @@ export const ScoreboardGrid = () => {
   return (
     <>
       <ScoreboardHeader />
-      <main className="max-w-md mx-auto">
+      {/** must be positioned above grid to stack under it  */}
+      <ScoreboardFooter />
+      <main className="max-w-md mx-auto pb-[var(--footer-height)]">
         <ul>
           {[...Array(frames).keys()].map((_, frame) => (
             <ScoreboardRow

@@ -39,7 +39,7 @@ export const ScoreboardDrawer = () => {
 
   const SWITCH_ON_FRAME = getSwitchFrame();
   const shouldSwitchFrame = SWITCH_ON_FRAME
-    ? CURRENT_FRAME >= SWITCH_ON_FRAME
+    ? CURRENT_FRAME > SWITCH_ON_FRAME
     : undefined;
 
   const p1Frame = Object.entries(player1Score).find(
