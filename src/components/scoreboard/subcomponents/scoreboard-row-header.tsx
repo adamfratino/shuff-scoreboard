@@ -4,13 +4,11 @@ import { cn } from "@/utils";
 type ScoreboardRowHeaderProps = {
   frame: Frame;
   disabled?: boolean;
-  hasSwitched?: boolean;
 };
 
 export const ScoreboardRowHeader = ({
   frame,
   disabled,
-  hasSwitched,
 }: ScoreboardRowHeaderProps) => {
   return (
     <h4
@@ -19,7 +17,7 @@ export const ScoreboardRowHeader = ({
         { "bg-gray-900 text-gray-500": disabled }
       )}
     >
-      Frame {frame} {hasSwitched && "switch"}
+      Frame {frame}
     </h4>
   );
 };

@@ -3,7 +3,8 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   SubmitMatchHeader,
   SubmitMatchControls,
-  SubmitMatchTotal,
+  SubmitMatchNames,
+  SubmitMatchFrames,
 } from "./subcomponents";
 
 type SubmitMatchDialogProps = {
@@ -19,7 +20,10 @@ export const SubmitMatchDialog = ({ trigger }: SubmitMatchDialogProps) => {
           title="Ready to submit your match?"
           description="Once a score is submitted, it's locked in forever."
         />
-        <SubmitMatchTotal />
+        <div className="border-2 border-black rounded-md gap-px bg-black overflow-hidden">
+          <SubmitMatchNames />
+          <SubmitMatchFrames />
+        </div>
         <SubmitMatchControls />
       </DialogContent>
     </Dialog>

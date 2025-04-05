@@ -17,7 +17,8 @@ export const SubmitMatchHeader = ({
     <DialogHeader>
       <DialogTitle>Ready to submit your match?</DialogTitle>
       <DialogDescription>
-        Once a score is submitted, it's locked in forever.
+        Once a score is submitted, you'll need to delete it and re-submit to
+        make corrections.
       </DialogDescription>
     </DialogHeader>
   );

@@ -11,12 +11,14 @@ type ScoreboardCellAchievementsProps = {
   position: Position;
   frame: Frame;
   reverse?: boolean;
+  className?: string;
 };
 
 export const ScoreboardCellAchievements = ({
   frame,
   position,
   reverse,
+  className,
 }: ScoreboardCellAchievementsProps) => {
   const { isPepperoni, tenPointCount, minusTenPointCount } = useScoreDetails({
     frame,
@@ -28,7 +30,8 @@ export const ScoreboardCellAchievements = ({
   return (
     <div
       className={cn(
-        "absolute bottom-2 flex items-center space-x-1 h-4 left-auto right-2",
+        "flex items-center space-x-1 h-4 absolute bottom-2 left-auto right-2",
+        className,
         position === 0 || (position === 1 && reverse)
           ? "left-2"
           : "left-auto right-2",

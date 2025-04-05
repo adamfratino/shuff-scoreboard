@@ -26,7 +26,7 @@ export const ScoreboardCell = ({
   return (
     <>
       <div className="relative aspect-video bg-black text-white">
-        {/** toggles drawer, displays total score */}
+        {/** toggles drawer, displays total score number */}
         <ScoreboardCellButton
           frame={frame}
           position={position}

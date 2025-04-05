@@ -19,7 +19,7 @@ export const ScoreboardGrid = () => {
       <ScoreboardHeader />
       {/** must be positioned above grid to stack under it  */}
       <ScoreboardFooter />
-      <main className="max-w-md mx-auto pb-[var(--footer-height)]">
+      <main className="max-w-[var(--board-max-width)] mx-auto pb-[var(--footer-height)]">
         <ul className="border-b border-b-gray-900">
           {[...Array(frames).keys()].map((_, frame) => (
             <ScoreboardRow

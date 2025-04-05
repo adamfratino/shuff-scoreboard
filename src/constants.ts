@@ -1,7 +1,7 @@
 import type { ScoreDetails, ScorePlaintext } from "./types";
 
 export const MAX_SHOTS_PER_FRAME = 4;
-export const DEFAULT_FRAMES = 16;
+export const DEFAULT_FRAMES = 8;
 
 /** valid positive scores, currently used to detect pepperoni */
 export const POSITIVE_SCORES = [10, 8, 7] as const;

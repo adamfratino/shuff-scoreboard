@@ -21,9 +21,13 @@ export const ScoreboardHeader = ({
 
   return (
     <header
-      className={cn("flex [&>*]:flex-1 max-w-md top-0 sticky", className, {
-        "flex-row-reverse": reverse,
-      })}
+      className={cn(
+        "flex [&>*]:flex-1 max-w-[var(--board-max-width)] mx-auto top-0 sticky",
+        className,
+        {
+          "flex-row-reverse": reverse,
+        }
+      )}
     >
       {players.map((player) => (
         <PlayerDetailsDialog

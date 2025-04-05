@@ -19,7 +19,10 @@ export const ScoreboardFooter = () => {
   }, [footerRef]);
 
   return (
-    <footer ref={footerRef} className="w-[100dvw] p-4 fixed bottom-0">
+    <footer
+      ref={footerRef}
+      className="w-[100dvw] max-w-[var(--board-max-width)] p-4 mx-auto fixed bottom-0 left-0 right-0"
+    >
       <SubmitMatchDialog
         trigger={
           <Button size="xl" variant="secondary" className="w-full">
