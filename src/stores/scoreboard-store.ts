@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+import { DEFAULT_FRAMES } from "@/constants";
+
 export interface ScoreboardState {
   frames: number;
   setFrames: (frames: number) => void;
@@ -10,9 +12,9 @@ export interface ScoreboardState {
 }
 
 export const useScoreboardStore = create<ScoreboardState>()((set, get) => ({
-  frames: 8,
+  frames: DEFAULT_FRAMES,
   switchSides: true,
-  switchFrame: 8 / 2,
+  switchFrame: DEFAULT_FRAMES / 2,
 
   setFrames: (frames) =>
     set({

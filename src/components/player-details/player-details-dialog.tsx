@@ -11,8 +11,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-type DialogProps = React.ComponentProps<typeof Dialog>;
-
 type PlayerDetailsDialogProps = Player & {
   trigger: React.ReactNode;
 };

@@ -1,5 +1,6 @@
 import { useRef, useLayoutEffect } from "react";
 
+import { SubmitMatchDialog } from "../submit-match/submit-match-dialog";
 import { Button } from "../ui/button";
 
 type ScoreboardFooterProps = {};
@@ -18,13 +19,14 @@ export const ScoreboardFooter = () => {
   }, [footerRef]);
 
   return (
-    <footer
-      ref={footerRef}
-      className="w-[100dvw] p-4 border-t border-t-gray-900 fixed bottom-0"
-    >
-      <Button size="xl" variant="secondary" disabled className="w-full">
-        Submit match
-      </Button>
+    <footer ref={footerRef} className="w-[100dvw] p-4 fixed bottom-0">
+      <SubmitMatchDialog
+        trigger={
+          <Button size="xl" variant="secondary" className="w-full">
+            Submit match
+          </Button>
+        }
+      />
     </footer>
   );
 };
